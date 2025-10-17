@@ -6,25 +6,27 @@ Dongle Lock GUI Application
 EEE3095S Embedded Systems II Project
 """
 
-import sys  # this is for
-import serial 
-import serial.tools.
+import sys  # this is needed for PyQt5 because it handles system args
+import serial # i added this for serial communication
+import serial.tools # this is needed to list available COM ports
+import serial.tools.list_ports # to list the available COM ports
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
                              QHBoxLayout, QPushButton, QLabel, QComboBox, 
-                             QInputDialog, QMessageBox, QFrame, QGraphicsDropShadowEffect)
-from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPropertyAnimation, QEasingCurve, QRect
-from PyQt5.QtGui import QFont, QIcon, QPalette, QColor, QLinearGradient, QPainter, QPen
+                             QInputDialog, QMessageBox, QFrame, QGraphicsDropShadowEffect) # for my gui components
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QPropertyAnimation, QEasingCurve, QRect # for core Qt functionality
+from PyQt5.QtGui import QFont, QIcon, QPalette, QColor, QLinearGradient, QPainter, QPen # for styling and graphics
 
 class ModernButton(QPushButton):
     """Custom styled button with hover effects"""
     def __init__(self, text, color="#4F46E5"):
-        super().__init__(text)
-        self.color = color
+        super().__init__(text) # Initialize parent class
+        self.color = color # Button color
         self.setMinimumHeight(50)
-        self.setCursor(Qt.PointingHandCursor)
+        self.setCursor(Qt.PointingHandCursor) # Change cursor on hover
         self.update_style()
         
     def update_style(self, hover=False):
+        """Update button style"""
         if hover:
             style = f"""
                 QPushButton {{
@@ -61,21 +63,22 @@ class ModernButton(QPushButton):
                     background: #9CA3AF;
                 }}
             """
-        self.setStyleSheet(style)
+        self.setStyleSheet(style) 
         
         # Add shadow effect
+        # we adding this to give the button a slight 3D effect for fun and aesthetics
         shadow = QGraphicsDropShadowEffect() 
         shadow.setBlurRadius(15)
-        shadow.setColor(QColor(0, 0, 0, 60))
-        shadow.setOffset(0, 4)
-        self.setGraphicsEffect(shadow)
+        shadow.setColor(QColor(0, 0, 0, 60)) # subtle shadow
+        shadow.setOffset(0, 4) # shadow position
+        self.setGraphicsEffect(shadow) # apply shadow effect
 
 class StatusLabel(QLabel):
     """Animated status label"""
     def __init__(self, text=""):
         super().__init__(text)
-        self.setAlignment(Qt.AlignCenter)
-        self.setMinimumHeight(40)
+        self.setAlignment(Qt.AlignCenter) # center text
+        self.setMinimumHeight(40) # minimum height of the label
         self.setStyleSheet("""
             QLabel {
                 background: #F3F4F6;
@@ -84,7 +87,7 @@ class StatusLabel(QLabel):
                 font-size: 13px;
                 color: #6B7280;
             }
-        """)
+        """) # default style
         
     def set_status(self, text, status_type="info"):
         """Set status with color coding"""
@@ -93,9 +96,9 @@ class StatusLabel(QLabel):
             "error": "#EF4444",
             "warning": "#F59E0B",
             "info": "#3B82F6"
-        }
-        self.setText(text)
-        color = colors.get(status_type, colors["info"])
+        } # this was meant for color coding the status messages
+        self.setText(text) # update text
+        color = colors.get(status_type, colors["info"]) # get color based on status type
         self.setStyleSheet(f"""
             QLabel {{
                 background: {color}22;
