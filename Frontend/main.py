@@ -110,7 +110,7 @@ class DongleLockGUI(QMainWindow):
         
     def init_ui(self):
         """Initialize the user interface"""
-        self.setWindowTitle("🔐 Dongle Lock Manager")
+        self.setWindowTitle("Dongle Lock Manager")
         self.setMinimumSize(600, 700)
         self.setStyleSheet("""
             QMainWindow {
@@ -165,7 +165,7 @@ class DongleLockGUI(QMainWindow):
         layout = QVBoxLayout(header_frame)
         
         # Title
-        title = QLabel("🔐 Dongle Lock Manager")
+        title = QLabel("Dongle Lock Manager")
         title.setFont(QFont("Segoe UI", 24, QFont.Bold))
         title.setStyleSheet("color: #1F2937; margin: 0;")
         title.setAlignment(Qt.AlignCenter)
@@ -301,7 +301,7 @@ class DongleLockGUI(QMainWindow):
         colors = ["#4F46E5", "#7C3AED", "#DB2777"]
         
         for i in range(3):
-            btn = ModernButton(f"🔑 Get Code {i+1}", colors[i])
+            btn = ModernButton(f"Get Code {i+1}", colors[i])
             btn.clicked.connect(lambda checked, idx=i+1: self.get_code(idx))
             layout.addWidget(btn)
             self.code_buttons.append(btn)
@@ -328,7 +328,7 @@ class DongleLockGUI(QMainWindow):
             if hasattr(self, 'status_label'):
                 self.status_label.set_status("⚠ No COM ports detected", "warning")
         else:
-            # Only update status label if it exists
+            #Only update status label if it exists
             if hasattr(self, 'status_label'):
                 self.status_label.set_status(f"Found {len(ports)} COM port(s)", "info")
             
@@ -359,7 +359,7 @@ class DongleLockGUI(QMainWindow):
             # Check response
             if response and self.protocol.is_ok_response(response):
                 self.is_connected = True
-                self.status_label.set_status("✓ Connected successfully!", "success")
+                self.status_label.set_status("Connected successfully!", "success")
                 
                 # Hide connection section, show controls
                 self.connection_frame.hide()
@@ -387,7 +387,7 @@ class DongleLockGUI(QMainWindow):
         
         # Validate code number
         if not self.protocol.validate_code_number(code_num):
-            self.status_label.set_status(f"✗ Invalid code number: {code_num}", "error")
+            self.status_label.set_status(f"Invalid code number: {code_num}", "error")
             return
         
         try:
@@ -396,7 +396,7 @@ class DongleLockGUI(QMainWindow):
             response = self.comm_port.send_command(get_msg, wait_response=True)
             
             if not response:
-                self.status_label.set_status("✗ No response from dongle", "error")
+                self.status_label.set_status("No response from dongle", "error")
                 return
             
             # Check if code slot is empty
@@ -413,7 +413,7 @@ class DongleLockGUI(QMainWindow):
                     # Validate code
                     is_valid, error_msg = self.protocol.validate_code_value(code)
                     if not is_valid:
-                        self.status_label.set_status(f"✗ Invalid code: {error_msg}", "error")
+                        self.status_label.set_status(f"Invalid code: {error_msg}", "error")
                         QMessageBox.warning(self, "Invalid Code", error_msg)
                         return
                     
@@ -431,7 +431,7 @@ class DongleLockGUI(QMainWindow):
                         )
                     else:
                         self.status_label.set_status(
-                            f"✗ Failed to save code: {confirm}", 
+                            f"Failed to save code: {confirm}", 
                             "error"
                         )
                 else:
@@ -445,7 +445,7 @@ class DongleLockGUI(QMainWindow):
                     clipboard = QApplication.clipboard()
                     clipboard.setText(code)
                     self.status_label.set_status(
-                        f"✓ Code {code_num} copied to clipboard", 
+                        f"Code {code_num} copied to clipboard", 
                         "success"
                     )
                     
@@ -458,16 +458,16 @@ class DongleLockGUI(QMainWindow):
                         f"Full code has been copied to clipboard."
                     )
                 else:
-                    self.status_label.set_status("✗ Failed to extract code", "error")
+                    self.status_label.set_status("Failed to extract code", "error")
                     
             else:
                 self.status_label.set_status(
-                    f"✗ Unexpected response: {response}", 
+                    f"Unexpected response: {response}", 
                     "error"
                 )
                 
         except Exception as e:
-            self.status_label.set_status(f"✗ Error: {str(e)}", "error")
+            self.status_label.set_status(f"Error: {str(e)}", "error")
             QMessageBox.critical(self, "Communication Error", str(e))
             
     def disconnect_dongle(self):
