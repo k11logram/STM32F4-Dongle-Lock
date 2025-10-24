@@ -189,7 +189,7 @@ PROTOCOL_DOCUMENTATION = """
    - SET_CODE_3:value     : Store code in slot 3
    - DISCONNECT           : Close connection with dongle
 
-2. STM → GUI Responses:
+2. STM to GUI Responses:
    - OK                   : Connection successful
    - CODE:value           : Return stored code value
    - EMPTY                : Code slot is empty
