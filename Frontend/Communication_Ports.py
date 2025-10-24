@@ -59,9 +59,9 @@ class CommunicationPorts:
         if self.connection and self.connection.is_open:
             try:
                 self.connection.close()
-                print(f"✓ Connection on {self.port} closed")
+                print(f"Connection on {self.port} closed")
             except Exception as e:
-                print(f"✗ Error closing connection: {e}")
+                print(f"Error closing connection: {e}")
             finally:
                 self.connection = None
     
@@ -76,7 +76,7 @@ class CommunicationPorts:
             bool: True if send successful, False otherwise
         """
         if not self.is_connected():
-            print("✗ Connection is not open. Cannot send data")
+            print("Connection is not open. Cannot send data")
             return False
             
         try:
@@ -107,7 +107,7 @@ class CommunicationPorts:
             str: Received data or None if error/timeout
         """
         if not self.is_connected():
-            print("✗ Connection is not open. Cannot receive data")
+            print("Connection is not open. Cannot receive data")
             return None
             
         try:
@@ -131,13 +131,13 @@ class CommunicationPorts:
                 return None
                 
         except serial.SerialException as e:
-            print(f"✗ Error receiving data: {e}")
+            print(f"Error receiving data: {e}")
             return None
         except UnicodeDecodeError as e:
-            print(f"✗ Error decoding received data: {e}")
+            print(f"Error decoding received data: {e}")
             return None
         except Exception as e:
-            print(f"✗ Unexpected error while receiving: {e}")
+            print(f"Unexpected error while receiving: {e}")
             return None
     
     def send_command(self, command: str, wait_response: bool = True) -> Optional[str]:
@@ -172,9 +172,9 @@ class CommunicationPorts:
             try:
                 self.connection.reset_input_buffer()
                 self.connection.reset_output_buffer()
-                print("✓ Buffers flushed")
+                print("Buffers flushed")
             except Exception as e:
-                print(f"✗ Error flushing buffers: {e}")
+                print(f"Error flushing buffers: {e}")
     
     @staticmethod
     def list_available_ports() -> List[Tuple[str, str]]:
